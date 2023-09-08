@@ -3,7 +3,6 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
-        includeBuild("plugin")
     }
 }
 dependencyResolutionManagement {
@@ -14,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "hooker"
-include(":app")
+rootProject.name = "plugin"
+include(":hooker")
