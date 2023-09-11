@@ -34,10 +34,25 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    hook {
+        element {
+            isStatic = true
+            hook = "hello"
+            target = "1"
+        }
+
+        element {
+            isStatic = false
+            hook = "ele"
+            target = "2"
+        }
+    }
 }
 
 dependencies {
 
+    //noinspection GradleDependency
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")

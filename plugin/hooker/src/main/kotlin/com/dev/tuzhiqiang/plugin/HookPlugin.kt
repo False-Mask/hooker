@@ -5,13 +5,14 @@ package com.dev.tuzhiqiang.plugin
 import com.android.build.api.instrumentation.InstrumentationScope
 import com.android.build.api.variant.AndroidComponentsExtension
 import com.android.build.gradle.BaseExtension
-import com.dev.tuzhiqiang.agp.HookTransformAction
+import com.dev.tuzhiqiang.agp.HookAsmVisitorFactory
 import com.dev.tuzhiqiang.agp.HookTransformer
 import com.dev.tuzhiqiang.log.Logger
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.get
 
+@Suppress("DEPRECATION", "REDUNDANT_ELSE_IN_WHEN")
 class HookPlugin: Plugin<Project> {
 
     private val plugins = listOf(
@@ -44,25 +45,26 @@ class HookPlugin: Plugin<Project> {
 
     private fun applyTransform() {
         when(pluginType) {
-            PluginType.Transformer-> {
+            PluginType.Transformer -> {
                 target.afterEvaluate {
                     val android = target.extensions["android"] as BaseExtension
                     android.registerTransform(HookTransformer(target.extensions[extName] as HookExtension))
                 }
             }
-            PluginType.TransformAction-> {
+            PluginType.TransformAction -> {
                 val ext = target.extensions.getByType(AndroidComponentsExtension::class.java)
                 ext.onVariants {
                     it.instrumentation.transformClassesWith(
-                        HookTransformAction::class.java,
+                        HookAsmVisitorFactory::class.java,
                         InstrumentationScope.PROJECT
-                    ) {
+                    ) { params ->
+                        params.extension = target.extensions.getByType(HookExtension::class.java)
 
                     }
                 }
             }
             else -> {
-
+                throw IllegalStateException("AGP版本暂时不兼容")
             }
         }
     }
