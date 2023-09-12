@@ -1,10 +1,12 @@
 package com.dev.tuzhiqiang.agp
 
 import com.android.build.api.instrumentation.InstrumentationParameters
-import com.dev.tuzhiqiang.plugin.HookExtension
+import com.dev.tuzhiqiang.plugin.Hooks
+import org.gradle.api.tasks.Input
 
 interface HookParams: InstrumentationParameters {
 
-    var extension: HookExtension
+    @get:Input
+    var extension: Hooks
 
 }

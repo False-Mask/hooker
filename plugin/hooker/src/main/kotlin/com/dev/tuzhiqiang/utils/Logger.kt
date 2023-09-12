@@ -1,6 +1,6 @@
 @file:Suppress("unused", "MemberVisibilityCanBePrivate")
 
-package com.dev.tuzhiqiang.log
+package com.dev.tuzhiqiang.utils
 
 import org.gradle.api.Project
 import org.gradle.api.logging.LogLevel
@@ -10,7 +10,7 @@ object Logger {
     private lateinit var target: Project
 
     fun init(target: Project) {
-        this.target = target
+        Logger.target = target
     }
 
     fun log(level: LogLevel = LogLevel.INFO , msg: String) {

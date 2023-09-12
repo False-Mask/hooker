@@ -7,7 +7,7 @@ import com.android.build.api.variant.AndroidComponentsExtension
 import com.android.build.gradle.BaseExtension
 import com.dev.tuzhiqiang.agp.HookAsmVisitorFactory
 import com.dev.tuzhiqiang.agp.HookTransformer
-import com.dev.tuzhiqiang.log.Logger
+import com.dev.tuzhiqiang.utils.Logger
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.get
@@ -25,8 +25,6 @@ class HookPlugin: Plugin<Project> {
     private lateinit var target: Project
 
     private lateinit var pluginType: PluginType
-
-
 
     override fun apply(target: Project) {
         this.target = target
@@ -58,8 +56,10 @@ class HookPlugin: Plugin<Project> {
                         HookAsmVisitorFactory::class.java,
                         InstrumentationScope.PROJECT
                     ) { params ->
-                        params.extension = target.extensions.getByType(HookExtension::class.java)
-
+                        params.extension = target
+                            .extensions
+                            .getByType(HookExtension::class.java)
+                            .hooks
                     }
                 }
             }
