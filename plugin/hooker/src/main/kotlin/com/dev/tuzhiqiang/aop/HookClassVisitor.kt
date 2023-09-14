@@ -12,9 +12,10 @@ import java.lang.reflect.Modifier
 
 class HookClassVisitor(
     private val ctx: ClassContext,
+    nextVisitor: ClassVisitor,
     params: Hooks,
     version: Int = apiVersion,
-) : ClassVisitor(version) {
+): ClassVisitor(version, nextVisitor) {
 
     private val filterParam = parse(params)
 
@@ -46,21 +47,19 @@ class HookClassVisitor(
                         "public" -> flag.or(Modifier.PUBLIC)
                         "private" -> flag.or(Modifier.PRIVATE)
                         "protected" -> flag.or(Modifier.PROTECTED)
-                        else -> throw IllegalStateException("非法token state")
+                        else -> 0
                     }
                     state++
                 }
                 1 -> {
                    when(token) {
                        "static" -> flag = flag.or(Modifier.STATIC)
-                       else -> throw IllegalStateException("非法token state")
                    }
                     state++
                 }
                 2 -> {
                     when(token) {
                         "final" -> flag = flag.or(Modifier.FINAL)
-                        else -> throw IllegalStateException("非法token state")
                     }
                     state++
                 }
@@ -83,7 +82,7 @@ class HookClassVisitor(
                 6 -> {
                     val paramsStr = token.replace("[\\s()]".toRegex(), "")
                     params = paramsStr.split(" ")
-
+                    state++
                 }
                 else -> {
                     throw IllegalStateException("已经解析完毕")

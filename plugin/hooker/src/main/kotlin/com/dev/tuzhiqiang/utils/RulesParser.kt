@@ -3,18 +3,14 @@ package com.dev.tuzhiqiang.utils
 @Suppress("unused")
 class RulesParser {
 
-    @Suppress("PrivatePropertyName")
-    private val FINISH_STATE = Pair<String?,Int>(null,-1)
-
     lateinit var rule: String
         private set
-        get
     private var len:Int = 0
     private var index = 0
 
+    private var curToken:String? = null
+
     private val spacing = arrayOf(' ','#',',')
-
-
 
     // 初始化Parser
     fun init(rule: String) {
@@ -24,25 +20,54 @@ class RulesParser {
 
     // 读取token并消费
     fun consume(): String? {
-        return peekInternal().let {
-            index = it.second
-            it.first
-        }
+        peekInternal()
+        return consumeToken()
     }
 
     // 读取token不消费
     fun peek():String? {
-        return peekInternal().first
+        peekInternal()
+        return curToken
     }
 
-    private fun peekInternal(): Pair<String?,Int> {
+    private fun consumeToken(): String? {
+        val res = curToken
+        index += curToken?.length ?: 0
+        curToken = null
+        return res
+    }
+
+    private fun peekInternal() {
         // 合理性判断
         while (index >= len) {
-            return FINISH_STATE
+            return
         }
         // 以空格为基础记录
+        // skip
+        when(rule[index]) {
+            ' ' -> {
+                while (index < len && rule[index] == ' ') {
+                    index++
+                }
+            }
+            '#' -> {
+                index++
+            }
+            '(' -> {
+                var end = index
+                while (end < len && rule[end] != ')') {
+                    end++
+                }
+                curToken = rule.substring(index, end)
+                return
+            }
+            ')' -> {
+                index++
+            }
+        }
         val begin = index
         var end = begin
+        // read token
         while (
             end < len &&
             rule[end] != ' ' &&
@@ -52,25 +77,7 @@ class RulesParser {
         ) {
             end++
         }
-        val str = rule.substring(begin,end)
-        when(rule[end]) {
-            ' ' -> {
-                while (end < len && rule[end] in spacing) {
-                    end++
-                }
-            }
-            '#' -> {
-                end++
-            }
-            '(' -> {
-
-            }
-            ')' -> {
-                end++
-            }
-        }
-
-        return Pair(str,end)
+        curToken = rule.substring(begin,end)
     }
 
 }

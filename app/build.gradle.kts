@@ -11,6 +11,7 @@ android {
     defaultConfig {
         applicationId = "com.dev.tuzhiqiang"
         minSdk = 24
+        //noinspection OldTargetApi
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -38,14 +39,14 @@ android {
     hook {
         element {
             isStatic = true
-            hook = "hello"
-            target = "1"
+            hook = "public static void com.dev.tuzhiqiang#test()"
+            target = "public static void com.dev.tuzhiqiag#a()"
         }
 
         element {
             isStatic = false
-            hook = "ele"
-            target = "2"
+            hook = "public static void com.dev.tuzhiqiang.Main#test()"
+            target = "public static void com.dev.tuzhiqiag.Test#a()"
         }
     }
 }

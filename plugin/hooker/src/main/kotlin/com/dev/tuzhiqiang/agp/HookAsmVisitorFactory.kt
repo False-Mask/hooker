@@ -12,7 +12,11 @@ abstract class HookAsmVisitorFactory: AsmClassVisitorFactory<HookParams> {
         classContext: ClassContext,
         nextClassVisitor: ClassVisitor
     ): ClassVisitor {
-        return HookClassVisitor(classContext,parameters.get().extension)
+        return HookClassVisitor(
+            classContext,
+            nextClassVisitor,
+            parameters.get().extension
+        )
     }
 
     override fun isInstrumentable(classData: ClassData): Boolean {

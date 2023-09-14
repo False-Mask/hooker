@@ -22,5 +22,6 @@ fun typeToDescriptor(str: String): String {
 }
 
 fun paramsToString(@Suppress("UNUSED_PARAMETER") parser: List<String>): String {
-    TODO()
+    // TODO()
+    return ""
 }

@@ -31,7 +31,7 @@ class HookPlugin: Plugin<Project> {
         Logger.init(target)
         init()
         if(hasPlugins(target, plugins)) {
-            Logger.error("====== hook插件添加成功!! ======")
+            Logger.info("hook插件添加成功!!")
             // 添加扩展
             target.extensions.add(extName, HookExtension::class.java)
             // 添加extension
