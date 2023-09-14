@@ -14,7 +14,15 @@ object Logger {
     }
 
     fun log(level: LogLevel = LogLevel.INFO , msg: String) {
-        target.logger.log(level,msg)
+        val log = when(level) {
+            LogLevel.INFO -> "INFO:\t$msg"
+            LogLevel.ERROR -> "ERROR:\t$msg"
+            LogLevel.DEBUG -> "DEBUG:\t$msg"
+            LogLevel.QUIET -> "QUIET:\t$msg"
+            LogLevel.LIFECYCLE -> "LIFECYCLE:\t$msg"
+            LogLevel.WARN -> "WARN:\t$msg"
+        }
+        target.logger.log(level, log)
     }
 
     fun error(msg: String) {
