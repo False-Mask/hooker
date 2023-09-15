@@ -20,12 +20,17 @@ class RulesParser {
 
     // 读取token并消费
     fun consume(): String? {
-        peekInternal()
+        if(curToken == null) {
+            peekInternal()
+        }
         return consumeToken()
     }
 
     // 读取token不消费
     fun peek():String? {
+        if(curToken != null) {
+            return curToken
+        }
         peekInternal()
         return curToken
     }
@@ -54,11 +59,13 @@ class RulesParser {
                 index++
             }
             '(' -> {
+                val begin = index + 1
                 var end = index
                 while (end < len && rule[end] != ')') {
                     end++
                 }
-                curToken = rule.substring(index, end)
+                curToken = rule.substring(begin, end)
+                index = end + 1
                 return
             }
             ')' -> {

@@ -44,42 +44,61 @@ class HookClassVisitor(
                 // 权限修饰符
                 0 -> {
                     flag = when(token) {
-                        "public" -> flag.or(Modifier.PUBLIC)
-                        "private" -> flag.or(Modifier.PRIVATE)
-                        "protected" -> flag.or(Modifier.PROTECTED)
+                        "public" -> {
+                            parser.consume()
+                            flag.or(Modifier.PUBLIC)
+                        }
+                        "private" -> {
+                            parser.consume()
+                            flag.or(Modifier.PRIVATE)
+                        }
+                        "protected" -> {
+                            parser.consume()
+                            flag.or(Modifier.PROTECTED)
+                        }
                         else -> 0
                     }
                     state++
                 }
                 1 -> {
                    when(token) {
-                       "static" -> flag = flag.or(Modifier.STATIC)
+                       "static" -> {
+                           parser.consume()
+                           flag = flag.or(Modifier.STATIC)
+                       }
                    }
                     state++
                 }
                 2 -> {
                     when(token) {
-                        "final" -> flag = flag.or(Modifier.FINAL)
+                        "final" -> {
+                            parser.consume()
+                            flag = flag.or(Modifier.FINAL)
+                        }
                     }
                     state++
                 }
                 // returnType
                 3 -> {
+                    parser.consume()
                     returnType = token
                     state++
                 }
                 // class类名
                 4 -> {
+                    parser.consume()
                     ownerName = token
                     state++
                 }
                 // 函数名称
                 5 -> {
+                    parser.consume()
                     methodName = token
                     state++
                 }
                 // 参数类型
                 6 -> {
+                    parser.consume()
                     val paramsStr = token.replace("[\\s()]".toRegex(), "")
                     params = paramsStr.split(" ")
                     state++
@@ -89,7 +108,7 @@ class HookClassVisitor(
                 }
 
             }
-            token = parser.consume()
+            token = parser.peek()
         }
         return res.apply {
             access = flag
