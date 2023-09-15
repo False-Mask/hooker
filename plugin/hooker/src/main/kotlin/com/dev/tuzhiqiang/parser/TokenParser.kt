@@ -1,7 +1,7 @@
-package com.dev.tuzhiqiang.utils
+package com.dev.tuzhiqiang.parser
 
 @Suppress("unused")
-class RulesParser {
+class TokenParser {
 
     lateinit var rule: String
         private set
