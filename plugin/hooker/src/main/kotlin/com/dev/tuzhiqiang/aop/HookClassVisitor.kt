@@ -64,7 +64,7 @@ class HookClassVisitor(
         return filterParam.any {
             val rules = it.first
             rules.owner == targetMethod.owner &&
-            rules.name == targetMethod.owner &&
+            rules.name == targetMethod.name &&
             rules.descriptor == targetMethod.descriptor &&
             (rules.access != 0 && rules.access.and(targetMethod.access) == rules.access)
         }

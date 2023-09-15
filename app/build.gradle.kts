@@ -57,6 +57,10 @@ android {
             hook = "public static void com.dev.tuzhiqiang.Main#test(int,int,double)"
             target = "public static void com.dev.tuzhiqiang.Main#test2(int[],int[][],java.lang.String[])"
         }
+
+        element {
+            hook = "public static void com.dev.tuzhiqiang.Tester#main(int[],long[],float[],double[])"
+        }
     }
 }
 
@@ -67,7 +71,9 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    //noinspection GradleDependency
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
+    //noinspection GradleDependency
     implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
