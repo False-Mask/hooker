@@ -15,7 +15,7 @@ fun typeToDescriptor(str: String): String {
             return if(str.contains("[]")) {
                 parseArray(str)
             } else {
-                "L${str.replace(".","/")}"
+                "L${str.replace(".","/")};"
             }
         }
 
@@ -32,11 +32,7 @@ fun parseArray(str: String): String {
 fun paramsToString(parser: List<String>): String {
     val builder = StringBuilder("(")
     for(e in parser) {
-        val typeString = typeToDescriptor(e)
-        builder.append(typeString)
-        if(typeString.length > 1) {
-            builder.append(";")
-        }
+        builder.append(typeToDescriptor(e))
     }
     builder.append(")")
     return builder.toString()

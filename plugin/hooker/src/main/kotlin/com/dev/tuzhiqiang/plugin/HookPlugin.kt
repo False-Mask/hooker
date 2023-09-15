@@ -54,7 +54,7 @@ class HookPlugin: Plugin<Project> {
                 ext.onVariants {
                     it.instrumentation.transformClassesWith(
                         HookAsmVisitorFactory::class.java,
-                        InstrumentationScope.PROJECT
+                        InstrumentationScope.ALL
                     ) { params ->
                         params.extension = target
                             .extensions
