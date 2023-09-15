@@ -48,6 +48,12 @@ android {
             hook = "public static void com.dev.tuzhiqiang.Main#test()"
             target = "public static void com.dev.tuzhiqiag.Test#a()"
         }
+
+        element {
+            isStatic = false
+            hook = "public static void com.dev.tuzhiqiang.Main#test(int,int,double)"
+            target = "public static void com.dev.tuzhiqiang.Main#test2(int[],int[][],java.lang.String[])"
+        }
     }
 }
 

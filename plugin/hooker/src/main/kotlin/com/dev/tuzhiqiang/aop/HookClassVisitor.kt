@@ -100,7 +100,9 @@ class HookClassVisitor(
                 6 -> {
                     parser.consume()
                     val paramsStr = token.replace("[\\s()]".toRegex(), "")
-                    params = paramsStr.split(" ")
+                    params = paramsStr
+                        .split(",")
+                        .filter { it != "" }
                     state++
                 }
                 else -> {

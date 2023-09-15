@@ -1,27 +1,43 @@
 package com.dev.tuzhiqiang.utils
 
-@Suppress("UNUSED_EXPRESSION")
 fun typeToDescriptor(str: String): String {
-    when(str) {
+    return when(str) {
         "boolean" -> "Z"
         "byte" -> "B"
         "short" -> "S"
-        "int" -> 'I'
+        "int" -> "I"
         "long" -> "J"
         "float" -> "F"
         "double" -> "D"
         "char" -> "C"
         "void" -> "V"
         else -> {
-
+            return if(str.contains("[]")) {
+                parseArray(str)
+            } else {
+                "L${str.replace(".","/")}"
+            }
         }
 
     }
-    return str
-
 }
 
-fun paramsToString(@Suppress("UNUSED_PARAMETER") parser: List<String>): String {
-    // TODO()
-    return ""
+fun parseArray(str: String): String {
+    val arrCharIdx = str.indexOf('[')
+    val obj = typeToDescriptor(str.substring(0,arrCharIdx))
+    val arrChars = str.substring(arrCharIdx,str.length).replace("]","")
+    return "$arrChars$obj"
+}
+
+fun paramsToString(parser: List<String>): String {
+    val builder = StringBuilder("(")
+    for(e in parser) {
+        val typeString = typeToDescriptor(e)
+        builder.append(typeString)
+        if(typeString.length > 1) {
+            builder.append(";")
+        }
+    }
+    builder.append(")")
+    return builder.toString()
 }
