@@ -4,7 +4,7 @@ import com.dev.tuzhiqiang.aop.MethodInfo
 import com.dev.tuzhiqiang.plugin.Hooks
 import com.dev.tuzhiqiang.utils.paramsToString
 import com.dev.tuzhiqiang.utils.typeToDescriptor
-import java.lang.reflect.Modifier
+import org.objectweb.asm.Opcodes
 
 object RulesParser {
 
@@ -40,62 +40,74 @@ object RulesParser {
     while (token != null) {
       when(state) {
         // 权限修饰符
-        0 -> {
+        ParserState.ACCESS.ordinal -> {
           flag = when(token) {
             "public" -> {
               parser.consume()
-              flag.or(Modifier.PUBLIC)
+              flag.or(Opcodes.ACC_PUBLIC)
             }
             "private" -> {
               parser.consume()
-              flag.or(Modifier.PRIVATE)
+              flag.or(Opcodes.ACC_PRIVATE)
             }
             "protected" -> {
               parser.consume()
-              flag.or(Modifier.PROTECTED)
+              flag.or(Opcodes.ACC_PROTECTED)
             }
             else -> 0
           }
           state++
         }
-        1 -> {
+        // 是否为static
+        ParserState.STATIC.ordinal -> {
           when(token) {
             "static" -> {
               parser.consume()
-              flag = flag.or(Modifier.STATIC)
+              flag = flag.or(Opcodes.ACC_STATIC)
             }
           }
           state++
         }
-        2 -> {
+        // 是否为final
+        ParserState.FINAL.ordinal -> {
           when(token) {
             "final" -> {
               parser.consume()
-              flag = flag.or(Modifier.FINAL)
+              flag = flag.or(Opcodes.ACC_FINAL)
+            }
+          }
+          state++
+        }
+        // synchronized
+        ParserState.SYNCHRONIZED.ordinal -> {
+          when(token){
+            "synchronized" -> {
+              parser.consume()
+              flag = flag.or(Opcodes.ACC_SYNCHRONIZED)
             }
           }
           state++
         }
         // returnType
-        3 -> {
+        ParserState.RETURN_TYPE.ordinal -> {
           parser.consume()
           returnType = token
           state++
         }
         // class类名
-        4 -> {
+        ParserState.CLASS_NAME.ordinal -> {
           parser.consume()
           ownerName = token
           state++
         }
         // 函数名称
-        5 -> {
+        ParserState.FUNC_NAME.ordinal -> {
           parser.consume()
           methodName = token
           state++
         }
         // 参数类型
-        6 -> {
+        ParserState.PARAMS.ordinal -> {
           parser.consume()
           val paramsStr = token.replace("[\\s()]".toRegex(), "")
           params = paramsStr
