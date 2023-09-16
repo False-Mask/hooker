@@ -28,7 +28,7 @@ object RulesParser {
     val parser = TokenParser().also {
       it.init(template.trim())
     }
-    var token = parser.consume()
+    var token = parser.peek()
     var state = 0
 
     var flag = 0
@@ -124,7 +124,7 @@ object RulesParser {
     }
     return res.apply {
       access = flag
-      owner = ownerName
+      owner = ownerName.replace(".","/")
       name = methodName
       descriptor = buildDescriptor(returnType, params)
     }

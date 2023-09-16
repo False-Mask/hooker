@@ -55,11 +55,17 @@ android {
         element {
             isStatic = false
             hook = "public static void com.dev.tuzhiqiang.Main#test(int,int,double)"
-            target = "public static void com.dev.tuzhiqiang.Main#test2(int[],int[][],java.lang.String[])"
+            target = "public static void com.dev.tuzhiqiang.Main#test(int,int,double)"
         }
 
         element {
-            hook = "public static void com.dev.tuzhiqiang.Tester#main(int[],long[],float[],double[])"
+            hook = "public static void com.dev.tuzhiqiang.aop.Tester#testStaticHook()"
+            target = "void com.dev.tuzhiqiang.aop.TesterHooker#testStaticHook()"
+        }
+
+        element {
+            hook = "public static void com.dev.tuzhiqiang.aop.Tester#testMemberHook()"
+            target = "void com.dev.tuzhiqiang.aop.TesterHooker#testMemberHook(com.dev.tuzhiqiang.aop.Tester)"
         }
     }
 }
