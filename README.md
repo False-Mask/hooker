@@ -8,7 +8,7 @@
 
 可以通过指定的语法对方法进行hook
 
-> /[public|private|protected] \[static] \[final] \[synchronized] returnType classInternalName#methodName(paramType...)
+> \[public|private|protected] \[static] \[final] \[synchronized] returnType classInternalName#methodName(paramType...)
 
 整体包含信息如下
 
@@ -21,6 +21,7 @@
 针对两种方法进行Hook
 
 - 静态方法
+
 Hook后的方法为static方法并且和原方法具有相同的参数列表(类名和方法名可自行配置)
 如：
 
@@ -43,6 +44,7 @@ public class TesterHooker {
 ```
 
 - 成员方法
+
 Hook后的方法变为**静态方法**，方法参数列表比Hook前多一个成员方法，其余保持不变(类名和方法名可自行配置)
 如：
 
