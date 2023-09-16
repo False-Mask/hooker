@@ -41,31 +41,28 @@ android {
 
     hook {
         element {
-            isStatic = true
             hook = "public static void com.dev.tuzhiqiang#test()"
-            target = "public static void com.dev.tuzhiqiag#a()"
+            target = "public static void com.dev.tuzhiqiag#a(...)"
         }
 
         element {
-            isStatic = false
             hook = "public static void com.dev.tuzhiqiang.Main#test()"
-            target = "public static void com.dev.tuzhiqiag.Test#a()"
+            target = "public static void com.dev.tuzhiqiag.Test#a(...)"
         }
 
         element {
-            isStatic = false
             hook = "public static void com.dev.tuzhiqiang.Main#test(int,int,double)"
-            target = "public static void com.dev.tuzhiqiang.Main#test(int,int,double)"
+            target = "public static void com.dev.tuzhiqiang.Main#test(...)"
         }
 
         element {
             hook = "public static void com.dev.tuzhiqiang.aop.Tester#testStaticHook()"
-            target = "void com.dev.tuzhiqiang.aop.TesterHooker#testStaticHook()"
+            target = "void com.dev.tuzhiqiang.aop.TesterHooker#testStaticHook(...)"
         }
 
         element {
             hook = "public static void com.dev.tuzhiqiang.aop.Tester#testMemberHook()"
-            target = "void com.dev.tuzhiqiang.aop.TesterHooker#testMemberHook(com.dev.tuzhiqiang.aop.Tester)"
+            target = "void com.dev.tuzhiqiang.aop.TesterHooker#testMemberHook(...)"
         }
     }
 }

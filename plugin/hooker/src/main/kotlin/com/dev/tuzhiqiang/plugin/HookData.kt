@@ -7,7 +7,6 @@ data class Hooks(
 ): Serializable
 
 data class Element(
-    var isStatic: Boolean = false,
     var hook: String = "",
     var target: String = ""
 ): Serializable
