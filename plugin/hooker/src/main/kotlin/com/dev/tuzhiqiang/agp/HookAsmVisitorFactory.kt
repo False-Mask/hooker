@@ -14,9 +14,9 @@ abstract class HookAsmVisitorFactory: AsmClassVisitorFactory<HookParams> {
     ): ClassVisitor {
         // Logger.error(classContext.currentClassData.className)
         return HookClassVisitor(
-            classContext,
-            nextClassVisitor,
-            parameters.get().extension
+            nextVisitor = nextClassVisitor,
+            params = parameters.get().extension,
+            ctx = classContext,
         )
     }
 

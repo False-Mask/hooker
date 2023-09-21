@@ -8,9 +8,9 @@ import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.MethodVisitor
 
 class HookClassVisitor(
-    @Suppress("unused") private val ctx: ClassContext,
     nextVisitor: ClassVisitor,
     private val params: Hooks,
+    @Suppress("unused") private val ctx: ClassContext? = null,
     version: Int = apiVersion,
 ): ClassVisitor(version, nextVisitor) {
 
