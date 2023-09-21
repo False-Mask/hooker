@@ -1,6 +1,7 @@
 package com.dev.tuzhiqiang.aop
 
 import com.dev.tuzhiqiang.conf.apiVersion
+import com.dev.tuzhiqiang.utils.Logger
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
 
@@ -25,6 +26,7 @@ class HookMethodVisitor(
                     m.owner == owner && m.name == name && descriptor == m.descriptor
                 }
                 if(hookOrNot != null) {
+                    Logger.error("${owner}#${name} => ${hookOrNot.second.owner}#${hookOrNot.second.name}")
                     super.visitMethodInsn(opcode, hookOrNot.second.owner, hookOrNot.second.name, descriptor, isInterface)
                     return
                 }
@@ -35,6 +37,7 @@ class HookMethodVisitor(
                     m.owner == owner && m.name == name && descriptor == m.descriptor
                 }
                 hookOrNot?.let {
+                    Logger.error("${owner}#${name} => ${hookOrNot.second.owner}#${hookOrNot.second.name}")
                     super.visitMethodInsn(
                         Opcodes.INVOKESTATIC,
                         it.second.owner,

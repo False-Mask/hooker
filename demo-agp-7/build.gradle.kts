@@ -42,28 +42,13 @@ android {
 
     hook {
         element {
-            hook = "public static void com.dev.tuzhiqiang#test()"
-            target = "public static void com.dev.tuzhiqiag#a(...)"
+            hook = "public static void com.dev.demo_agp_7.aop.Tester#testStaticHook()"
+            target = "void com.dev.demo_agp_7.aop.TesterHooker#testStaticHook(...)"
         }
 
         element {
-            hook = "public static void com.dev.tuzhiqiang.Main#test()"
-            target = "public static void com.dev.tuzhiqiag.Test#a(...)"
-        }
-
-        element {
-            hook = "public static void com.dev.tuzhiqiang.Main#test(int,int,double)"
-            target = "public static void com.dev.tuzhiqiang.Main#test(...)"
-        }
-
-        element {
-            hook = "public static void com.dev.tuzhiqiang.aop.Tester#testStaticHook()"
-            target = "void com.dev.tuzhiqiang.aop.TesterHooker#testStaticHook(...)"
-        }
-
-        element {
-            hook = "public static void com.dev.tuzhiqiang.aop.Tester#testMemberHook()"
-            target = "void com.dev.tuzhiqiang.aop.TesterHooker#testMemberHook(...)"
+            hook = "public static void com.dev.demo_agp_7.aop.Tester#testMemberHook()"
+            target = "void com.dev.demo_agp_7.aop.TesterHooker#testMemberHook(...)"
         }
     }
 }
