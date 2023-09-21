@@ -44,10 +44,8 @@ class HookPlugin: Plugin<Project> {
     private fun applyTransform() {
         when(pluginType) {
             PluginType.Transformer -> {
-                target.afterEvaluate {
-                    val android = target.extensions["android"] as BaseExtension
-                    android.registerTransform(HookTransformer(target.extensions[extName] as HookExtension))
-                }
+                val android = target.extensions["android"] as BaseExtension
+                android.registerTransform(HookTransformer(target.extensions[extName] as HookExtension))
             }
             PluginType.TransformAction -> {
                 val ext = target.extensions.getByType(AndroidComponentsExtension::class.java)
