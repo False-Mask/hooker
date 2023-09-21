@@ -1,18 +1,22 @@
 package com.dev.tuzhiqiang.utils
 
 import com.android.build.api.transform.Context
+import com.android.build.api.transform.Format
 import com.android.build.api.transform.TransformInput
 import com.android.build.api.transform.TransformOutputProvider
+import org.gradle.kotlin.dsl.support.unzipTo
+import org.gradle.kotlin.dsl.support.zipTo
 import java.io.File
 
 class Transformer {
 
+  private lateinit var trans: (ByteArray) -> ByteArray
   private var incremental: Boolean = false
   private var outputProvider: TransformOutputProvider? = null
   private var refInputs: MutableCollection<TransformInput>? = null
   private var ctx: Context? = null
   private var inputs: MutableCollection<TransformInput>? = null
-  fun addInputes(
+  fun addInputs(
     context: Context?,
     inputs: MutableCollection<TransformInput>?,
     referencedInputs: MutableCollection<TransformInput>?,
@@ -28,13 +32,32 @@ class Transformer {
   }
 
   fun transform() {
-    inputs?.forEach {
-      it.directoryInputs.forEach {
-        transformDirectory(it.file)
+    inputs?.forEach {input->
+      input.directoryInputs.forEach {
+        val file = outputProvider!!.getContentLocation(
+          it.file.absolutePath,
+          it.contentTypes,
+          it.scopes,
+          Format.DIRECTORY
+        )!!
+        it.file.copyRecursively(file, overwrite = true)
+        transformDirectory(file)
       }
 
-      it.jarInputs.forEach {
-
+      input.jarInputs.forEach {
+        val file = outputProvider!!.getContentLocation(
+          it.file.absolutePath,
+          it.contentTypes,
+          it.scopes,
+          Format.JAR
+        )!!
+        // 解压
+        val tmpDir = File(it.file.absolutePath.replace(".jar",""))
+        unzipTo(tmpDir,it.file)
+        // 转换
+        transformDirectory(tmpDir)
+        // 压缩
+        zipTo(file, tmpDir)
       }
     }
   }
@@ -47,9 +70,14 @@ class Transformer {
       .filter {
         it.name.endsWith(".class")
       }.forEach {
-        Logger.error(it.name)
+        val transBytes = trans(it.readBytes())
+        it.writeBytes(transBytes)
       }
+  }
 
+  fun actions(trans: (ByteArray) -> ByteArray): Transformer {
+    this.trans = trans
+    return this
   }
 
 }
