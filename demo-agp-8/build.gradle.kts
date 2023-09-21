@@ -1,7 +1,7 @@
 plugins {
 //    id("com.android.application")
     id("com.android.application") version "8.1.1"
-    id("org.jetbrains.kotlin.android") version "1.7.10"
+    id("org.jetbrains.kotlin.android") version "1.9.0"
     id("com.plugin.hook")
 }
 

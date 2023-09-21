@@ -70,11 +70,18 @@ class HookPlugin: Plugin<Project> {
     }
 
     private fun init() {
-        val agpVersion = target.project.properties["agpVersion"] as String
-        pluginType = if(agpVersion < "8.0.0") {
-            PluginType.Transformer
-        } else {
-            PluginType.TransformAction
+        target.extensions.getByType(AndroidComponentsExtension::class.java)?.apply {
+            pluginType = PluginType.TransformAction
+            if(target.properties["forceTransform"] as String? == "true") {
+                if(pluginVersion.major >= 8) {
+                    Logger.error("agpVersion >= 8.0.0, forceTransform=true失效")
+                } else {
+                    pluginType = PluginType.Transformer
+                    Logger.warn("hook强制采用transform")
+                }
+            }
+        } ?: {
+            pluginType = PluginType.Transformer
         }
     }
 

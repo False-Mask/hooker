@@ -1,6 +1,11 @@
 plugins {
     id("com.android.application") version "7.4.2"
-    id("org.jetbrains.kotlin.android") version "1.9.0"
+    id("org.jetbrains.kotlin.android") version "1.7.10"
+    id("com.plugin.hook")
+}
+
+androidComponents {
+    println(pluginVersion)
 }
 
 android {
@@ -32,6 +37,33 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+
+    hook {
+        element {
+            hook = "public static void com.dev.tuzhiqiang#test()"
+            target = "public static void com.dev.tuzhiqiag#a(...)"
+        }
+
+        element {
+            hook = "public static void com.dev.tuzhiqiang.Main#test()"
+            target = "public static void com.dev.tuzhiqiag.Test#a(...)"
+        }
+
+        element {
+            hook = "public static void com.dev.tuzhiqiang.Main#test(int,int,double)"
+            target = "public static void com.dev.tuzhiqiang.Main#test(...)"
+        }
+
+        element {
+            hook = "public static void com.dev.tuzhiqiang.aop.Tester#testStaticHook()"
+            target = "void com.dev.tuzhiqiang.aop.TesterHooker#testStaticHook(...)"
+        }
+
+        element {
+            hook = "public static void com.dev.tuzhiqiang.aop.Tester#testMemberHook()"
+            target = "void com.dev.tuzhiqiang.aop.TesterHooker#testMemberHook(...)"
+        }
     }
 }
 

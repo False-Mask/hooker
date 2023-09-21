@@ -30,11 +30,15 @@ object Logger {
     }
 
     fun info(msg: String) {
-        log(LogLevel.INFO,msg)
+        log(LogLevel.INFO, msg)
     }
 
     fun debug(msg: String) {
-        log(LogLevel.DEBUG,msg)
+        log(LogLevel.DEBUG, msg)
+    }
+
+    fun warn(msg: String) {
+        log(LogLevel.WARN, msg)
     }
 
 }

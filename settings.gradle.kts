@@ -15,5 +15,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "hooker"
-include(":demo-agp-8")
+//include(":demo-agp-8")
 include(":demo-agp-7")
